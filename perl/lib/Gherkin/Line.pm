@@ -32,7 +32,7 @@ sub _build_indent {
 
 sub get_rest_trimmed {
     my ( $self, $from ) = @_;
-    my $rest = substr( $self->_trimmed_line_text, $from );
+    my $rest = substr $self->_trimmed_line_text, $from;
     $rest =~ s/^\s*//;
     $rest =~ s/\s*$//;
     return $rest;
@@ -45,7 +45,7 @@ sub get_line_text {
     if ( $indent_to_remove < 0 or $indent_to_remove > $self->indent ) {
         return $self->_trimmed_line_text;
     } else {
-        return substr( $self->line_text, $indent_to_remove );
+        return substr $self->line_text, $indent_to_remove;
     }
 }
 
@@ -57,13 +57,13 @@ sub is_empty {
 sub startswith {
     my ( $self, $prefix ) = @_;
     return unless defined $self->_trimmed_line_text;
-    return !index( $self->_trimmed_line_text, $prefix );
+    return !index $self->_trimmed_line_text, $prefix;
 }
 
 sub startswith_title_keyword {
     my ( $self, $prefix ) = @_;
     return unless defined $self->_trimmed_line_text;
-    return !index( $self->_trimmed_line_text, $prefix . ':' );
+    return !index $self->_trimmed_line_text, $prefix . ':';
 }
 
 sub _split_table_cells_iterator {
@@ -120,13 +120,12 @@ sub table_cells {
         my $cell_indent = length($cell) - length($stripped_cell);
         $stripped_cell =~ s/\s+$//;
         $stripped_cell =~ s/(\\\\|\\\||\\n)/$unescape_map{$1}/g;
-        push(
+        push
             @{$cells},
             {
                 column => $col + $self->indent + $cell_indent,
                 text   => $stripped_cell
-            }
-        );
+            };
     }
 
     return $cells;
@@ -140,8 +139,8 @@ sub tags {
 
     my @tags;
     my @errors;
-    my @items = split( /@/, $items_line );
-    shift(@items);    # Blank first item
+    my @items = split /@/, $items_line;
+    shift @items;    # Blank first item
 
     for my $untrimmed (@items) {
         my $item = $untrimmed;

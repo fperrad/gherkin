@@ -74,7 +74,7 @@ sub _parse_source_encoding_header {
     my $header_end = 0;
     my @header     = grep {
         not ($header_end ||= ($_ !~ m/^\s*#/))
-    } split( /\n/, $source->data );
+    } split /\n/, $source->data;
     my $encoding;
     for my $line (@header) {
         if ($line =~ m/\s*#\s+encoding:\s+(\S+)/) {

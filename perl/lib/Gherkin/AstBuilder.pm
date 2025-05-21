@@ -45,13 +45,13 @@ sub current_node {
 
 sub start_rule {
     my ( $self, $rule_type ) = @_;
-    push( @{ $self->{'stack'} }, ast_node($rule_type) );
+    push @{ $self->{'stack'} }, ast_node($rule_type);
     return;
 }
 
 sub end_rule {
     my ( $self, $rule_type ) = @_;
-    my $node = pop( @{ $self->{'stack'} } );
+    my $node = pop @{ $self->{'stack'} };
     $self->current_node->add( $node->rule_type, $self->transform_node($node) );
     return;
 }
@@ -188,7 +188,7 @@ sub transform_node {
         my $media_type      = $separator_token->matched_text;
         my $delimiter       = $separator_token->matched_keyword;
         my $line_tokens     = $node->get_tokens('Other');
-        my $content = join( "\n", map { $_->matched_text } @{$line_tokens} );
+        my $content = join "\n", map { $_->matched_text } @{$line_tokens};
 
         return Cucumber::Messages::DocString->new(
             location    => $self->get_location($separator_token),

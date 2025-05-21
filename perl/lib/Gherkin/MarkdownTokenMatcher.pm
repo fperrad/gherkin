@@ -31,7 +31,7 @@ sub _add_keyword_type_mappings {
         if ( not exists $keyword_types->{$keyword} ) {
             $keyword_types->{$keyword} = [];
         }
-        push( @{ $keyword_types->{$keyword} }, $type );
+        push @{ $keyword_types->{$keyword} }, $type;
     }
     return;
 }
@@ -53,7 +53,7 @@ sub change_dialect {
         Cucumber::Messages::Step::KEYWORDTYPE_CONJUNCTION );
     $self->_keyword_types($keyword_types);
 
-    my @non_star_step_keywords = sort { length($b) <=> length($a) } map {
+    my @non_star_step_keywords = sort { length $b <=> length $a } map {
         grep { $_ ne '* ' }
         @{ $self->dialect->$_ }
     } qw/Given When Then And But/;
@@ -124,13 +124,12 @@ sub match_TagLine {
     my ( $self, $token ) = @_;
     my @tags = ();
     while ( $token->line->line_text =~ m/`(@[^`]+)`/g ) {
-        push(
+        push
             @tags,
             {
                 column => 2 + length($`),
                 text   => $1,
-            }
-        );
+            };
     }
     return unless scalar(@tags);
     $self->_set_token_matched( $token, TagLine => { items => \@tags } );
@@ -166,7 +165,7 @@ sub _set_token_matched {
     $token->matched_type($matched_type);
 
     if ( defined $options->{'text'} ) {
-        chomp( $options->{'text'} );
+        chomp $options->{'text'};
         $token->matched_text( $options->{'text'} );
     }
 

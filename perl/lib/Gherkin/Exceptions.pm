@@ -47,10 +47,10 @@ sub new {
 
 sub message {
     my $self = shift;
-    return sprintf( '(%i:%i): %s',
+    return sprintf '(%i:%i): %s',
         $self->location->{'line'},
         ( $self->location->{'column'} || 0 ),
-        $self->detailed_message );
+        $self->detailed_message;
 }
 
 package Gherkin::Exceptions::NoSuchLanguage;
@@ -132,11 +132,10 @@ sub new {
 
 sub detailed_message {
     my $self = shift;
-    return sprintf(
+    return sprintf
         'expected: %s, got \'%s\'',
         ( join ', ', @{ $self->expected_token_types } ),
-        $self->received_token_value,
-    );
+        $self->received_token_value;
 }
 
 1;

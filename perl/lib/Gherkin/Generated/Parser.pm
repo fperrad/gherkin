@@ -3897,7 +3897,7 @@ sub lookahead_0 {
     while (1) {
         $token = $context->read_token();
         $token->detach;
-        push( @queue, $token );
+        push @queue, $token;
 
 
         ($match) = $context->token_matcher->match_ScenarioLine($token);
@@ -3928,7 +3928,7 @@ sub lookahead_1 {
     while (1) {
         $token = $context->read_token();
         $token->detach;
-        push( @queue, $token );
+        push @queue, $token;
 
 
         ($match) = $context->token_matcher->match_ExamplesLine($token);

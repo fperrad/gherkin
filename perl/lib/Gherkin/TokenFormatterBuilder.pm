@@ -15,7 +15,7 @@ sub formatted_tokens { return $_[0]->{'formatted_tokens'} }
 
 sub build {
     my ( $self, $token ) = @_;
-    push( @{ $self->formatted_tokens }, $self->format_token($token) );
+    push @{ $self->formatted_tokens }, $self->format_token($token);
     return;
 }
 
@@ -32,7 +32,7 @@ my $c = 0;
 sub format_token {
     my ( $self, $token ) = @_;
     return 'EOF' if $token->is_eof;
-    my $v = sprintf(
+    my $v = sprintf
         '(%s:%s)%s:%s/%s/%s',
         $token->location->{'line'},
         $token->location->{'column'},
@@ -40,10 +40,9 @@ sub format_token {
         ( $token->matched_keyword ?
           sprintf('(%s)%s',$token->matched_keyword_type || '',$token->matched_keyword || '') : ''),
         $token->matched_text    || '',
-        join( ',',
+        join ',',
             map { $_->{'column'} . ':' . $_->{'text'} }
-              @{ $token->matched_items } )
-    );
+              @{ $token->matched_items };
     utf8::encode($v);
     return $v;
 }

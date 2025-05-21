@@ -151,7 +151,7 @@ sub _set_token_matched {
     $token->matched_type($matched_type);
 
     if ( defined $options->{'text'} ) {
-        chomp( $options->{'text'} );
+        chomp $options->{'text'};
         $token->matched_text( $options->{'text'} );
     }
 
@@ -229,7 +229,7 @@ sub match_StepLine {
 
     for my $keyword (@keywords) {
         if ( $line->startswith($keyword) ) {
-            my $title = $line->get_rest_trimmed( length($keyword) );
+            my $title = $line->get_rest_trimmed( length $keyword );
             my $keyword_type =
                 (scalar @{$self->_keyword_types->{$keyword}} > 1)
                 ? Cucumber::Messages::Step::KEYWORDTYPE_UNKNOWN
@@ -267,7 +267,7 @@ sub _match_DocStringSeparator {
 
     my $content_type;
     if ($is_open) {
-        $content_type = $token->line->get_rest_trimmed( length($separator) );
+        $content_type = $token->line->get_rest_trimmed( length $separator );
         $self->_active_doc_string_separator($separator);
         $self->_indent_to_remove( $token->line->indent );
     } else {

@@ -15,7 +15,7 @@ sub new {
     return bless $options, $class;
 }
 
-sub add_tokens { my $self = shift; push( @{ $self->token_queue }, @_ ); return; }
+sub add_tokens { my $self = shift; push @{ $self->token_queue }, @_; return; }
 sub errors     { my $self = shift; return @{ $self->_errors } }
 sub add_errors {
     my $self = shift;
@@ -24,7 +24,7 @@ sub add_errors {
 }
 
 sub read_token {
-    my ($self) = shift();
+    my ($self) = shift;
     return shift( @{ $self->token_queue } ) || $self->token_scanner->read;
 }
 

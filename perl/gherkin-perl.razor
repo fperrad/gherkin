@@ -146,7 +146,7 @@ sub lookahead_@(lookAheadHint.Id) {
     while (1) {
         $token = $context->read_token();
         $token->detach;
-        push( @@queue, $token );
+        push @@queue, $token;
 
         @foreach(var tokenType in lookAheadHint.ExpectedTokens) {<text>
         ($match) = @MatchToken(tokenType);

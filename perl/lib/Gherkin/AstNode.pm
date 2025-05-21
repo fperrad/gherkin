@@ -12,7 +12,7 @@ sub new {
 
 sub add {
     my ( $self, $rule_type, $obj ) = @_;
-    push( @{ ( $self->{'_sub_items'}->{$rule_type} ||= [] ) }, $obj );
+    push @{ ( $self->{'_sub_items'}->{$rule_type} ||= [] ) }, $obj;
     return;
 }
 
