@@ -1,0 +1,13 @@
+
+severity = 2
+exclude = ControlStructures::ProhibitUnlessBlocks Documentation::RequirePodSections Documentation::PodSpelling ErrorHandling::RequireCarping Modules::RequireVersionVar NamingConventions::Capitalization RegularExpressions Subroutines::ProhibitManyArgs Subroutines::RequireArgUnpacking Variables::ProhibitPunctuationVars
+
+[ControlStructures::ProhibitPostfixControls]
+allow = for if unless while
+#flowcontrol = warn die carp croak cluck confess goto exit
+
+[Subroutines::ProhibitBuiltinHomonyms]
+allow = read reset
+
+[ValuesAndExpressions::ProhibitMagicNumbers]
+allowed_values = -1 0 1 2
