@@ -72,7 +72,7 @@ sub formatter {
     my $fh   = $self->out_handle;
     return sub {
         my $msg = shift;
-        print $fh $msg->to_json . "\n";
+        print {$fh} $msg->to_json . "\n";
     };
 }
 
