@@ -17,7 +17,7 @@ sub detach { }
 
 sub token_value {
     my $self = shift;
-    return $self->is_eof ? "EOF" : $self->line->get_line_text;
+    return $self->is_eof ? 'EOF' : $self->line->get_line_text;
 }
 
 1;

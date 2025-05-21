@@ -85,7 +85,7 @@ sub _split_table_cells_iterator {
                 } else {
                     return ( $cell, $start_col );
                 }
-            } elsif ( $char eq "\\" ) {
+            } elsif ( $char eq '\\' ) {
                 if ($row =~ s/^(.)//) {
                     $col += 1;
                     $cell .= '\\' . $1;
@@ -95,7 +95,7 @@ sub _split_table_cells_iterator {
             } elsif ( defined $char ) {
                 $cell .= $char;
             } else {
-                die "WHAT?";
+                die 'WHAT?';
             }
         }
       }

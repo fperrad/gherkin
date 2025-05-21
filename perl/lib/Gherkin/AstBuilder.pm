@@ -79,7 +79,7 @@ sub get_location {
     my ( $self, $token, $column ) = @_;
 
     use Carp qw/confess/;
-    confess "What no token?" unless $token;
+    confess 'What no token?' unless $token;
 
     return Cucumber::Messages::Location->new(
         line   => $token->location->{'line'},
@@ -134,7 +134,7 @@ sub ensure_cell_count {
         $cell_count = $this_row_count unless defined $cell_count;
         unless ( $cell_count == $this_row_count ) {
             Gherkin::Exceptions::AstBuilder->throw(
-                "inconsistent cell count within the table",
+                'inconsistent cell count within the table',
                 $row->location );
         }
     }
@@ -236,12 +236,12 @@ sub transform_node {
     } elsif ( $node->rule_type eq 'Rule' ) {
         my $header = $node->get_single('RuleHeader');
         unless ($header) {
-            warn "Missing RuleHeader!";
+            warn 'Missing RuleHeader!';
             return;
         }
         my $rule_line = $header->get_token('RuleLine');
         unless ($rule_line) {
-            warn "Missing RuleLine";
+            warn 'Missing RuleLine';
             return;
         }
         my $tags = $self->get_tags($header);
@@ -303,12 +303,12 @@ sub transform_node {
     } elsif ( $node->rule_type eq 'Feature' ) {
         my $header = $node->get_single('FeatureHeader');
         unless ($header) {
-            warn "Missing FeatureHeader!";
+            warn 'Missing FeatureHeader!';
             return;
         }
         my $feature_line = $header->get_token('FeatureLine');
         unless ($feature_line) {
-            warn "Missing FeatureLine";
+            warn 'Missing FeatureLine';
             return;
         }
         my $tags = $self->get_tags($header);

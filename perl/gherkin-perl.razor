@@ -18,8 +18,8 @@
 {<text>    $token->detach;
     $err = $self->_construct_parser_error(
         $token,
-        ["@Raw(string.Join("\", \"", expectedTokens))"],
-        "State: @state.Id - @Raw(state.Comment)",
+        ['@Raw(string.Join("', '", expectedTokens))'],
+        'State: @state.Id - @Raw(state.Comment)',
     );
     $self->add_error( $context, $err );
 
@@ -39,7 +39,7 @@ use base 'Gherkin::ParserBase';
 my %states_to_match_names = (
     @foreach(var state in Model.States.Values.Where(s => !s.IsEndState)) //..
     {
-@:    @state.Id => "match_token_at_@(state.Id)",
+@:    @state.Id => 'match_token_at_@(state.Id)',
     }
 );
 ## use critic
@@ -90,7 +90,7 @@ sub match_token {
 
 sub _construct_parser_error {
     my ($self, $token, @@args) = @@_;
-    my $error_class = "Gherkin::Exceptions::" . (
+    my $error_class = 'Gherkin::Exceptions::' . (
         $token->is_eof ? 'UnexpectedEOF' : 'UnexpectedToken' );
 
     return $error_class->new( $token, @@args );

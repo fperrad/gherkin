@@ -65,7 +65,7 @@ sub new {
 
 sub detailed_message {
     my $self = shift;
-    return "Language not supported: " . $self->language;
+    return 'Language not supported: ' . $self->language;
 }
 
 package Gherkin::Exceptions::AstBuilder;
@@ -100,7 +100,7 @@ sub new {
 
 sub detailed_message {
     my $self = shift;
-    return "unexpected end of file, expected: " . join ', ',
+    return 'unexpected end of file, expected: ' . join ', ',
         @{ $self->expected_token_types };
 }
 
@@ -133,7 +133,7 @@ sub new {
 sub detailed_message {
     my $self = shift;
     return sprintf(
-        "expected: %s, got '%s'",
+        'expected: %s, got \'%s\'',
         ( join ', ', @{ $self->expected_token_types } ),
         $self->received_token_value,
     );

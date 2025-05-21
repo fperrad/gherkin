@@ -176,7 +176,7 @@ sub _compile_rule {
                     $scenario, $language, $id_generator, $pickle_sink);
             }
         } else {
-            die "Unimplemented";
+            die 'Unimplemented';
         }
     }
     return;

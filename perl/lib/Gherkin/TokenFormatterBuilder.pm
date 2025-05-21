@@ -31,9 +31,9 @@ my $c = 0;
 
 sub format_token {
     my ( $self, $token ) = @_;
-    return "EOF" if $token->is_eof;
+    return 'EOF' if $token->is_eof;
     my $v = sprintf(
-        "(%s:%s)%s:%s/%s/%s",
+        '(%s:%s)%s:%s/%s/%s',
         $token->location->{'line'},
         $token->location->{'column'},
         $token->matched_type || '',
