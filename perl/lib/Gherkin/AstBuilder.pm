@@ -20,7 +20,7 @@ sub new {
         id_generator  => $id_generator // sub {
             return $id_counter++;
         },
-        uri           => '',
+        uri           => q{},
     }, $class;
     $self->reset;
     return $self;
@@ -157,7 +157,7 @@ sub get_cells {
     return \@cells;
 }
 
-sub get_description { return ($_[1]->get_single('Description') || '') }
+sub get_description { return ($_[1]->get_single('Description') || q{}) }
 sub get_steps       { return $_[1]->get_items('Step') }
 
 sub next_id {
@@ -193,7 +193,7 @@ sub transform_node {
         return Cucumber::Messages::DocString->new(
             location    => $self->get_location($separator_token),
             content     => $content,
-            media_type  => ($media_type eq '' ) ? undef : $media_type,
+            media_type  => ($media_type eq q{} ) ? undef : $media_type,
             delimiter   => $delimiter
             );
     } elsif ( $node->rule_type eq 'DataTable' ) {

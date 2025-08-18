@@ -19,7 +19,7 @@ sub new {
         if ( my $filename = $options->{'dictionary_location'} ) {
             require Cpanel::JSON::XS;
             open( my $fh, '<', $filename ) || die "Can't open [$filename]";
-            my $input = join '', (<$fh>);
+            my $input = join q{}, (<$fh>);
             close $fh;
             $options->{'dictionary'} = Cpanel::JSON::XS::decode_json($input);
         } else {

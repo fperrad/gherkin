@@ -120,7 +120,7 @@ sub match_Language {
 
 sub match_TagLine {
     my ( $self, $token ) = @_;
-    return unless $token->line and $token->line->startswith('@');
+    return unless $token->line and $token->line->startswith(q{@});
 
     my ($tags, $err) = $token->line->tags;
     $self->_set_token_matched( $token,
@@ -135,7 +135,7 @@ sub _match_title_line {
     for my $keyword (@{$keywords}) {
         if ( $token->line->startswith_title_keyword($keyword) ) {
             my $title =
-              $token->line->get_rest_trimmed( length( $keyword . ': ' ) );
+              $token->line->get_rest_trimmed( length( $keyword . q{: } ) );
             $self->_set_token_matched( $token, $token_type,
                 { text => $title, keyword => $keyword } );
             return 1;
@@ -190,7 +190,7 @@ sub match_Empty {
 
 sub match_Comment {
     my ( $self, $token ) = @_;
-    return unless $token->line and $token->line->startswith('#');
+    return unless $token->line and $token->line->startswith(q{#});
 
     my $comment_text = $token->line->line_text;
     $comment_text =~ s/\r\n$//;    # Why?
@@ -253,8 +253,8 @@ sub match_DocStringSeparator {
         return 0;
     }
     if ( !$self->_active_doc_string_separator ) {
-        return $self->_match_DocStringSeparator( $token, '"""', 1 )
-          || $self->_match_DocStringSeparator( $token, '```', 1 );
+        return $self->_match_DocStringSeparator( $token, q{"""}, 1 )
+          || $self->_match_DocStringSeparator( $token, q{```}, 1 );
     } else {
         return $self->_match_DocStringSeparator( $token,
             $self->_active_doc_string_separator, 0 );
@@ -282,7 +282,7 @@ sub _match_DocStringSeparator {
 
 sub match_TableRow {
     my ( $self, $token ) = @_;
-    return unless $token->line->startswith('|');
+    return unless $token->line->startswith(q{|});
 
     $self->_set_token_matched( $token,
         TableRow => { items => $token->line->table_cells } );

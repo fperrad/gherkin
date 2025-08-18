@@ -63,7 +63,7 @@ sub startswith {
 sub startswith_title_keyword {
     my ( $self, $prefix ) = @_;
     return unless defined $self->_trimmed_line_text;
-    return !index $self->_trimmed_line_text, $prefix . ':';
+    return !index $self->_trimmed_line_text, $prefix . q{:};
 }
 
 sub _split_table_cells_iterator {
@@ -72,25 +72,25 @@ sub _split_table_cells_iterator {
     my $first_cell = 1;
 
     return sub {
-        my $cell      = '';
+        my $cell      = q{};
         my $start_col = $col + 1 + $first_cell;
 
         while (1) {
             ( $row =~ s/^(.)// ) || return;
             my $char = $1;
             $col += 1;
-            if ( $char eq '|' ) {
+            if ( $char eq q{|} ) {
                 if ($first_cell) {
                     $first_cell = 0;
                 } else {
                     return ( $cell, $start_col );
                 }
-            } elsif ( $char eq '\\' ) {
+            } elsif ( $char eq q{\\} ) {
                 if ($row =~ s/^(.)//) {
                     $col += 1;
-                    $cell .= '\\' . $1;
+                    $cell .= q{\\} . $1;
                 } else {
-                    $cell .= '\\';
+                    $cell .= q{\\};
                 }
             } elsif ( defined $char ) {
                 $cell .= $char;
@@ -101,7 +101,7 @@ sub _split_table_cells_iterator {
       }
 }
 
-my %unescape_map = ( '\\\\' => '\\', '\\|' => '|', '\\n' => "\n" );
+my %unescape_map = ( q{\\\\} => q{\\}, q{\\|} => q{|}, q{\\n} => "\n" );
 
 sub table_cells {
     my ($self) = @_;
@@ -160,7 +160,7 @@ sub tags {
         }
         push @tags, {
             column => $column,
-            text   => '@' . $item,
+            text   => q{@} . $item,
         };
 
         $column += length($untrimmed) + 1;

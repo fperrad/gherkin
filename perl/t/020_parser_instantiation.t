@@ -18,9 +18,9 @@ my $content = $file->slurp;
 my %results;
 
 for (
-    [ filename => '' . $file ], # By filename
+    [ filename => q{} . $file ], # By filename
     [ stringref => \$content ], # By content
-    [ scanner => Gherkin::TokenScanner->new( '' . $file ) ], # Object
+    [ scanner => Gherkin::TokenScanner->new( q{} . $file ) ], # Object
 ) {
     my ( $type, $input ) = @{$_};
     $results{ $type } = Gherkin::Parser->new->parse( $input );

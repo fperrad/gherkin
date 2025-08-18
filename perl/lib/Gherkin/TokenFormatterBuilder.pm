@@ -36,12 +36,12 @@ sub format_token {
         '(%s:%s)%s:%s/%s/%s',
         $token->location->{'line'},
         $token->location->{'column'},
-        $token->matched_type || '',
+        $token->matched_type || q{},
         ( $token->matched_keyword ?
-          sprintf('(%s)%s',$token->matched_keyword_type || '',$token->matched_keyword || '') : ''),
-        $token->matched_text    || '',
-        join ',',
-            map { $_->{'column'} . ':' . $_->{'text'} }
+          sprintf('(%s)%s', $token->matched_keyword_type || q{}, $token->matched_keyword || q{}) : q{}),
+        $token->matched_text || q{},
+        join q{,},
+            map { $_->{'column'} . q{:} . $_->{'text'} }
               @{ $token->matched_items };
     utf8::encode($v);
     return $v;

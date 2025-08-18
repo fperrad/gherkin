@@ -74,7 +74,7 @@ sub match_FeatureLine {
     return if $self->_matched_FeatureLine;
 
     # We first try to match "# Feature: blah"
-    my $result = $self->_match_title_line( $KEYWORD_PREFIX_HEADER, ':', $token,
+    my $result = $self->_match_title_line( $KEYWORD_PREFIX_HEADER, q{:}, $token,
         FeatureLine => $self->dialect->Feature );
     # If we didn't match "# Feature: blah", we still match this line
     # as a FeatureLine.
@@ -89,27 +89,27 @@ sub match_FeatureLine {
 
 sub match_RuleLine {
     my ( $self, $token ) = @_;
-    return $self->_match_title_line( $KEYWORD_PREFIX_HEADER, ':', $token,
+    return $self->_match_title_line( $KEYWORD_PREFIX_HEADER, q{:}, $token,
         RuleLine => $self->dialect->Rule );
 }
 
 sub match_ScenarioLine {
     my ( $self, $token ) = @_;
-    return $self->_match_title_line( $KEYWORD_PREFIX_HEADER, ':', $token,
+    return $self->_match_title_line( $KEYWORD_PREFIX_HEADER, q{:}, $token,
         ScenarioLine => $self->dialect->Scenario )
-      || $self->_match_title_line( $KEYWORD_PREFIX_HEADER, ':', $token,
+      || $self->_match_title_line( $KEYWORD_PREFIX_HEADER, q{:}, $token,
         ScenarioLine => $self->dialect->ScenarioOutline );
 }
 
 sub match_BackgroundLine {
     my ( $self, $token ) = @_;
-    return $self->_match_title_line( $KEYWORD_PREFIX_HEADER, ':', $token,
+    return $self->_match_title_line( $KEYWORD_PREFIX_HEADER, q{:}, $token,
         BackgroundLine => $self->dialect->Background );
 }
 
 sub match_ExamplesLine {
     my ( $self, $token ) = @_;
-    return $self->_match_title_line( $KEYWORD_PREFIX_HEADER, ':', $token,
+    return $self->_match_title_line( $KEYWORD_PREFIX_HEADER, q{:}, $token,
         ExamplesLine => $self->dialect->Examples );
 }
 
@@ -117,7 +117,7 @@ sub match_Language {
     my ( $self, $token ) = @_;
     # We've made a deliberate choice not to support `# language: [ISO 639-1]` headers or similar
     # in Markdown. Users should specify a language globally.
-    return '';
+    return q{};
 }
 
 sub match_TagLine {
@@ -138,7 +138,7 @@ sub match_TagLine {
 
 sub _match_title_line {
     my ( $self, $prefix, $keyword_suffix, $token, $token_type, $keywords ) = @_;
-    my $regex = $prefix . '(' . join( '|', map { "\Q$_\E" } @{$keywords} ) . ')' . $keyword_suffix . '\s*(.*)';
+    my $regex = $prefix . q{(} . join( q{|}, map { "\Q$_\E" } @{$keywords} ) . q{)} . $keyword_suffix . '\s*(.*)';
     if ( $token->line->_trimmed_line_text =~ qr/$regex/ ) {
         my $indent  = $token->line->indent + ( length($1) || 0 );
         my $keyword = $2;
@@ -220,7 +220,7 @@ sub match_Empty {
 
 sub match_Comment {
     my ( $self, $token ) = @_;
-    if (   $token->line->startswith('|')
+    if (   $token->line->startswith(q{|})
         && $self->_is_gfm_table_separator( $token->line->table_cells ) )
     {
         $self->_set_token_matched( $token, Empty => { indent => 0 } );
@@ -239,7 +239,7 @@ sub match_Other {
 
 sub match_StepLine {
     my ( $self, $token ) = @_;
-    return $self->_match_title_line( $KEYWORD_PREFIX_BULLET, '', $token,
+    return $self->_match_title_line( $KEYWORD_PREFIX_BULLET, q{}, $token,
         StepLine => $self->_non_star_step_keywords );
 }
 
@@ -254,7 +254,7 @@ sub match_DocStringSeparator {
             $self->_active_doc_string_separator($DEFAULT_DOC_STRING_SEPARATOR);
         }
         $self->_set_token_matched( $token,
-            DocStringSeparator => { keyword => $1, text => '' } );
+            DocStringSeparator => { keyword => $1, text => q{} } );
         return 1;
     }
 }
@@ -266,7 +266,7 @@ sub match_TableRow {
         my $table_cells = $token->line->table_cells;
         return if ( $self->_is_gfm_table_separator($table_cells) );
         $self->_set_token_matched( $token,
-            TableRow => { keyword => '|', items => $table_cells } );
+            TableRow => { keyword => q{|}, items => $table_cells } );
         return 1;
     }
 }
