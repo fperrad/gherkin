@@ -65,6 +65,7 @@ sub from_paths {
             $id_generator,
             $sink);
     }
+    return;
 }
 
 sub _parse_source_encoding_header {
@@ -88,6 +89,7 @@ sub _parse_source_encoding_header {
             unless $enc;
         $source->data( $enc->decode(encode_utf8($source->data)) );
     }
+    return;
 }
 
 sub _parser_error_message {
@@ -130,7 +132,7 @@ sub from_source {
             $sink->($ast_msg) if $self->include_ast;
 
             if ($self->include_pickles) {
-                Gherkin::Pickles::Compiler->compile(
+                return Gherkin::Pickles::Compiler->compile(
                     $ast_msg,
                     $id_generator,
                     $sink);
@@ -151,6 +153,7 @@ sub from_source {
             die $@; # rethrow
         }
     }
+    return;
 }
 
 

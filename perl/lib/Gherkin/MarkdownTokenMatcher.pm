@@ -33,9 +33,10 @@ sub _add_keyword_type_mappings {
         }
         push( @{ $keyword_types->{$keyword} }, $type );
     }
+    return;
 }
 
-sub dialect_name { $_[0]->dialect->dialect }
+sub dialect_name { return $_[0]->dialect->dialect; }
 
 sub change_dialect {
     my $self = shift;
@@ -57,6 +58,7 @@ sub change_dialect {
         @{ $self->dialect->$_ }
     } qw/Given When Then And But/;
     $self->_non_star_step_keywords( \@non_star_step_keywords );
+    return;
 }
 
 sub reset {
@@ -64,6 +66,7 @@ sub reset {
     $self->change_dialect( $self->_default_dialect_name );
     $self->_indent_to_remove(0);
     $self->_active_doc_string_separator($DEFAULT_DOC_STRING_SEPARATOR);
+    return;
 }
 
 sub match_FeatureLine {
@@ -81,31 +84,32 @@ sub match_FeatureLine {
             FeatureLine => { text => $token->line->_trimmed_line_text } );
     }
     $self->_matched_FeatureLine(1);
+    return 1;
 }
 
 sub match_RuleLine {
     my ( $self, $token ) = @_;
-    $self->_match_title_line( $KEYWORD_PREFIX_HEADER, ':', $token,
+    return $self->_match_title_line( $KEYWORD_PREFIX_HEADER, ':', $token,
         RuleLine => $self->dialect->Rule );
 }
 
 sub match_ScenarioLine {
     my ( $self, $token ) = @_;
-    $self->_match_title_line( $KEYWORD_PREFIX_HEADER, ':', $token,
+    return $self->_match_title_line( $KEYWORD_PREFIX_HEADER, ':', $token,
         ScenarioLine => $self->dialect->Scenario )
-      or $self->_match_title_line( $KEYWORD_PREFIX_HEADER, ':', $token,
+      || $self->_match_title_line( $KEYWORD_PREFIX_HEADER, ':', $token,
         ScenarioLine => $self->dialect->ScenarioOutline );
 }
 
 sub match_BackgroundLine {
     my ( $self, $token ) = @_;
-    $self->_match_title_line( $KEYWORD_PREFIX_HEADER, ':', $token,
+    return $self->_match_title_line( $KEYWORD_PREFIX_HEADER, ':', $token,
         BackgroundLine => $self->dialect->Background );
 }
 
 sub match_ExamplesLine {
     my ( $self, $token ) = @_;
-    $self->_match_title_line( $KEYWORD_PREFIX_HEADER, ':', $token,
+    return $self->_match_title_line( $KEYWORD_PREFIX_HEADER, ':', $token,
         ExamplesLine => $self->dialect->Examples );
 }
 
@@ -130,6 +134,7 @@ sub match_TagLine {
     }
     return unless scalar(@tags);
     $self->_set_token_matched( $token, TagLine => { items => \@tags } );
+    return 1;
 }
 
 sub _match_title_line {
@@ -150,7 +155,9 @@ sub _match_title_line {
         }
         $self->_set_token_matched( $token, $token_type,
             { indent => $indent, keyword => $keyword, text => $text, keyword_type => $keyword_type } );
+        return 1;
     }
+    return;
 }
 
 sub _set_token_matched {
@@ -179,12 +186,14 @@ sub _set_token_matched {
 
     $token->location->{'column'} = $token->matched_indent + 1;
     $token->matched_gherkin_dialect( $self->dialect_name );
+    return;
 }
 
 sub match_EOF {
     my ( $self, $token ) = @_;
     return unless $token->is_eof;
     $self->_set_token_matched( $token, 'EOF' );
+    return 1;
 }
 
 sub match_Empty {
@@ -206,6 +215,7 @@ sub match_Empty {
       )
     {
         $self->_set_token_matched( $token, Empty => { indent => 0 } );
+        return 1;
     }
 }
 
@@ -215,6 +225,7 @@ sub match_Comment {
         && $self->_is_gfm_table_separator( $token->line->table_cells ) )
     {
         $self->_set_token_matched( $token, Empty => { indent => 0 } );
+        return 1;
     }
 }
 
@@ -224,11 +235,12 @@ sub match_Other {
     my $text = $token->line->get_line_text( $self->_indent_to_remove );
     $self->_set_token_matched( $token,
         Other => { indent => 0, text => $text } );
+    return 1;
 }
 
 sub match_StepLine {
     my ( $self, $token ) = @_;
-    $self->_match_title_line( $KEYWORD_PREFIX_BULLET, '', $token,
+    return $self->_match_title_line( $KEYWORD_PREFIX_BULLET, '', $token,
         StepLine => $self->_non_star_step_keywords );
 }
 
@@ -244,6 +256,7 @@ sub match_DocStringSeparator {
         }
         $self->_set_token_matched( $token,
             DocStringSeparator => { keyword => $1, text => '' } );
+        return 1;
     }
 }
 
@@ -255,6 +268,7 @@ sub match_TableRow {
         return if ( $self->_is_gfm_table_separator($table_cells) );
         $self->_set_token_matched( $token,
             TableRow => { keyword => '|', items => $table_cells } );
+        return 1;
     }
 }
 

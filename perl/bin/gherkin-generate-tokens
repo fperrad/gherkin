@@ -25,6 +25,7 @@ sub run {
       for @file_list;
     print $fh "\n";
 
+    return;
 }
 
 __PACKAGE__->run(\*STDOUT, @ARGV) unless caller;
